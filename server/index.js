@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 
 app.use(cors({
-    origin: "https://devoraui-1.onrender.com/",
+    origin: ["https://devoraui-1.onrender.com", "http://localhost:5173" ],
     credentials: true,
 }));
 
