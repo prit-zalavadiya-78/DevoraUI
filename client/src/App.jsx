@@ -10,7 +10,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData, setAllUsers, setAllComponents } from "./redux/userSlice";
 
-export const ServerURL = "http://localhost:8000";
+export const ServerURL = "https://devoraui.onrender.com";
 
 const App = () => {
 
@@ -24,7 +24,7 @@ const App = () => {
     const fetchUser = async ()=>{
       try {
         const res = await axios.get(`${ServerURL}/api/user/current-user`, {withCredentials: true});
-        console.log(res);
+        // console.log(res);
         dispatch(setUserData(res.data));
         setAuthChecked(true);
       } catch (error) {
