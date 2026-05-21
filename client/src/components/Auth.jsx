@@ -7,9 +7,10 @@ import { FcGoogle } from "react-icons/fc";
 import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../utils/firebase";
 import axios from "axios";
-import { ServerURL } from "../App";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
+
+const ServerURL = import.meta.env.VITE_API_URL;
 
 const steps = [
 
