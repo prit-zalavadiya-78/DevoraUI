@@ -1,3 +1,7 @@
+import {Payment} from "../models/payment.model.js";
+import instance from "../utils/razorPay.js";
+import crypto from "crypto";
+import User from "../models/user.model.js";
 
 const createOrder = async (req, res) => {
     try {
@@ -42,7 +46,7 @@ const verifyOrder = async (req, res) => {
         if(payment.status === "paid"){
             return res.status(200).json({ message: "Payment already verified" });
         }
-        const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET);
+        const hmac = crypto.createHmac("sha256", process.env.RAZORPAY_KEY_SECRET);
         hmac.update(razorpayOrderId + "|" + razorpayPaymentId);
         const generatedSignature = hmac.digest("hex");
         if(generatedSignature !== razorpaySignature){

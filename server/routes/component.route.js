@@ -1,7 +1,7 @@
 import express from "express";
 import { saveComponent, publishComponent, getAllComponents } from "../controllers/component.controller.js";
 import protect from "../middlewares/auth.middleware.js";
-import { generateComponent } from "../controllers/aicomponent.controller.js";
+import { generateComponent } from "../controllers/aiComponent.controller.js";
 
 const router = express.Router();
 

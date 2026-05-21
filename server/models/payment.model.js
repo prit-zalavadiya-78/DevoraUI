@@ -11,7 +11,7 @@ const paymentSchema = new Schema({
         required: true
     },
     aiCredits: Number,
-    razorpayOrderId: String,
+    razorpayOrderId: String, 
     razorpayPaymentId: String,
     status: {
         type: String,

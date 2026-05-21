@@ -6,6 +6,7 @@ import { FiLock, FiZap, FiCheck } from "react-icons/fi";
 import { ServerURL } from '../App.jsx';
 import axios from 'axios';
 import { setUserData } from '../redux/userSlice';
+import { useDispatch } from 'react-redux';
 
 const plans = [
   {
@@ -51,8 +52,8 @@ const Pricing = () => {
 
   const handlePayment = async (plan) => {
     try {
-      const response = await axios.post(`${ServerURL}/api/payment/create`, {
-        amount, aiCredits: plan.aiCredits
+      const result = await axios.post(`${ServerURL}/api/payment/create`, {
+        amount: plan.amount, aiCredits: plan.aiCredits
       }, {withCredentials: true});
 
       const rzp  = new window.Razorpay({
