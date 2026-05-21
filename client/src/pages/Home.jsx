@@ -7,9 +7,10 @@ import { motion, AnimatePresence} from "framer-motion";
 import { TbComponents,TbLayout, TbMenu2, TbX, TbCopy, TbCheck, TbArrowRight, TbAdjustments, TbCode, TbBrandNpm, TbPlayerPlay } from "react-icons/tb";
 import { HiSparkles } from "react-icons/hi";
 import axios from "axios";
-import { ServerURL } from "../App";
 import { setAllUsers, setUserData } from "../redux/userSlice";
 import { useNavigate } from "react-router-dom";
+
+const ServerURL = import.meta.env.VITE_API_URL;
 
 const features = [
     { icon: TbLayout, title: "Prebuilt UI Components", text: "Install DevoraUI and use ready-made, production-grade components instantly." },

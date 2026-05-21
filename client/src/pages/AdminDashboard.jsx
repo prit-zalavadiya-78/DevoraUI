@@ -8,11 +8,11 @@ import { LuLogOut } from "react-icons/lu";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
-import { ServerURL } from "../App.jsx";
 import { Area, AreaChart, ResponsiveContainer, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
 import LiveComponentPreview from "../components/LiveComponentPreview.jsx";
 import { FiCheckCircle, FiAlertCircle } from "react-icons/fi";
 
+const ServerURL = import.meta.env.VITE_API_URL;
 
 const navItems = [
   { id: "dashboard", label: "Dashboard",     Icon: TbLayoutDashboard },

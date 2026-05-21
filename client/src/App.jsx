@@ -10,7 +10,7 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserData, setAllUsers, setAllComponents } from "./redux/userSlice";
 
-export const ServerURL = "https://devoraui.onrender.com";
+const ServerURL = import.meta.env.VITE_API_URL;
 
 const App = () => {
 

@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { TbChevronLeft } from 'react-icons/tb'
 import { motion } from 'framer-motion'
 import { FiLock, FiZap, FiCheck } from "react-icons/fi";
-import { ServerURL } from '../App.jsx';
 import axios from 'axios';
 import { setUserData } from '../redux/userSlice';
 import { useDispatch } from 'react-redux';
+
+const ServerURL = import.meta.env.VITE_API_URL;
 
 const plans = [
   {

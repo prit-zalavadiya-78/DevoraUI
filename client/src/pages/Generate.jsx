@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
-import { ServerURL } from "../App";
 import {setUserData} from "../redux/userSlice.js";
 import LiveComponentPreview from "../components/LiveComponentPreview.jsx";
+
+const ServerURL = import.meta.env.VITE_API_URL;
 
 const Toast = ({message, type, onClose})=>{
     return(

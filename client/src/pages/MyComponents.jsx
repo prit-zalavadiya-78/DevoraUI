@@ -11,6 +11,8 @@ import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
 import LiveComponentPreview from "../components/LiveComponentPreview";
 
+const ServerURL = import.meta.env.VITE_API_URL;
+
 function CopyBtn({text}){
   const [copied, setCopied] = useState(false);
   const handleCopy = async () => {
