@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { createPaymentOrder, verifyPayment } from "../controllers/payment.controller.js";
-import { protect } from "../middlewares/auth.middleware.js";
+import { createOrder, verifyOrder } from "../controllers/payment.controller.js";
+import protect from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/create", protect, createPaymentOrder);
-router.post("/verify", protect, verifyPayment); 
+router.post("/create", protect, createOrder);
+router.post("/verify", protect, verifyOrder); 
 
 export default router;
