@@ -1,85 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+
+const alpha = (hex, op) => {
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return "rgba(" + r + "," + g + "," + b + "," + op + ")";
+};
+
+const panel = {
+  background: "#0f172a",
+  border: "1px solid rgba(255,255,255,0.08)",
+  boxShadow: "0 10px 40px rgba(0,0,0,0.4)",
+  color: "#fff",
+  fontFamily: "system-ui, -apple-system, sans-serif"
+};
 
 export const Button = ({
-  children = "Button",
-  variant = "default",
+  text = "Get Started",
+  variant = "primary",
   size = "md",
   disabled = false,
-  onClick = () => {},
+  loading = false,
+  onClick = () => {}
 }) => {
-  const [hovered, setHovered] = useState(false);
-
-  const variants = {
-    default: {
-      background: hovered ? "#111827" : "#18181b",
-      color: "#ffffff",
-      border: "1px solid #27272a",
-    },
-    outline: {
-      background: hovered ? "#f4f4f5" : "transparent",
-      color: "#18181b",
-      border: "1px solid #d4d4d8",
-    },
-    ghost: {
-      background: hovered ? "#f4f4f5" : "transparent",
-      color: "#18181b",
-      border: "1px solid transparent",
-    },
-    destructive: {
-      background: hovered ? "#b91c1c" : "#dc2626",
-      color: "#ffffff",
-      border: "1px solid #dc2626",
-    },
+  const presets = {
+    sm: "8px 14px",
+    md: "11px 18px",
+    lg: "14px 24px"
   };
-
-  const sizes = {
-    sm: {
-      padding: "8px 14px",
-      fontSize: "13px",
-    },
-    md: {
-      padding: "10px 18px",
-      fontSize: "14px",
-    },
-    lg: {
-      padding: "12px 24px",
-      fontSize: "15px",
-    },
+  const styles = {
+    primary: { background: "linear-gradient(135deg, #6366f1, #7c3aed)", color: "#fff" },
+    secondary: { background: "rgba(255,255,255,0.06)", color: "#fff" },
+    ghost: { background: "transparent", color: "#fff" },
+    danger: { background: "linear-gradient(135deg, #e11d48, #fb7185)", color: "#fff" }
   };
-
-  const currentVariant = variants[variant];
-  const currentSize = sizes[size];
-
+  const picked = styles[variant] || styles.primary;
   return (
     <button
-      disabled={disabled}
       onClick={onClick}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      disabled={disabled || loading}
       style={{
-        ...currentVariant,
-        ...currentSize,
+        ...picked,
+        padding: presets[size] || presets.md,
+        border: "1px solid " + (variant === "ghost" ? "rgba(255,255,255,0.08)" : "transparent"),
         borderRadius: "10px",
-        fontWeight: 500,
         cursor: disabled ? "not-allowed" : "pointer",
-        opacity: disabled ? 0.5 : 1,
-        outline: "none",
-        transition: "all 0.2s ease",
-        display: "inline-flex",
-        alignItems: "center",
-        justifyContent: "center",
-        gap: "8px",
-        fontFamily:
-          'Inter, ui-sans-serif, system-ui, -apple-system, sans-serif',
-        boxShadow:
-          variant === "default"
-            ? "0 1px 2px rgba(0,0,0,0.15)"
-            : "none",
+        fontWeight: 700,
+        fontSize: "14px",
+        opacity: disabled ? 0.6 : 1,
+        transition: "transform 0.2s, opacity 0.2s",
+        fontFamily: "inherit"
       }}
     >
-      {children}
+      {loading ? "Loading..." : text}
     </button>
   );
 };
-
-// export default Button;

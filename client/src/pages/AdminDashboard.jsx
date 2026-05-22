@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.png";
+import { SiDeepgram } from "react-icons/si";
 import { useSelector } from "react-redux";
 import { TbLayoutDashboard, TbPackage, TbChevronLeft, TbX, TbMenu2, TbPlus, TbUsers, TbCode, TbSearch, TbWorld, TbBoxOff, TbEye, TbCodeDots, TbDeviceFloppy, TbTrash, TbLoader } from "react-icons/tb";
 import { motion, AnimatePresence } from "framer-motion";
@@ -128,7 +128,6 @@ function AddComponentForm() {
     const [isPublished, setIsPublished] = useState(false);
     const [toast, setToast] = useState(null);
     
-
     const showToast = (message, type = 'info') => {
         setToast({message, type});
         setTimeout(() => setToast(null), 3000);
@@ -357,6 +356,10 @@ const AdminDashboard = () => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const [componentSearch, setComponentSearch] = useState("");
 
+    useEffect(()=>{
+        if(!userData || userData?.role !== "admin") navigate("/");
+    }, []);
+
 
     const handleLogout = async () => {
         try {
@@ -372,7 +375,7 @@ const AdminDashboard = () => {
         <>
             <div className='flex items-center gap-2.5 px-5 py-5 border-b border-white/[0.07]'>
             <div className='w-8 h-8 rounded-xl bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center shadow-[0_0_14px_rgba(59,232,255,0.4)] flex-shrink-0'>
-                <img src={logo} alt="logo" />
+                <SiDeepgram size={17} color="#051c20"/>
             </div>
             <div>
                 <span className='text-base font-bold block'>DevoraUI</span>

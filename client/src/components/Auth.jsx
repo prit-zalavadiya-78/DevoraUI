@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
-import logo from "../assets/logo.png";
 import { TbLogin2, TbSettings, TbCopy, TbDownload } from "react-icons/tb";
 import { HiSparkles } from "react-icons/hi";
 import { FcGoogle } from "react-icons/fc";
@@ -9,6 +8,7 @@ import { auth, provider } from "../utils/firebase";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../redux/userSlice";
+import { SiDeepgram } from "react-icons/si";
 
 const ServerURL = import.meta.env.VITE_API_URL;
 
@@ -87,8 +87,8 @@ function Auth({onClose}){
                         transition={{delay:0.3}}
                         className="flex items-center gap-3 mb-7 sm:mb-9"
                     >
-                        <div className="w-8 h-8 bg-white rounded-lg">
-                            <img src={logo} alt="logo" className="w-full h-full object-contain" />
+                        <div className="w-8 h-8 bg-white rounded-lg grid place-items-center">
+                            <SiDeepgram size={17} color="#000000ff" />
                         </div>
                         <span className="text-2xl font-bold bg-white bg-clip-text text-transparent">
                             DevoraUI
@@ -130,10 +130,20 @@ function Auth({onClose}){
                     
                     <div className="relative z-10 w-full max-w-[280px] sm:max-w-[260px] text-center mx-auto">
                         <motion.div
-                        animate={{y:[0, -6, 0]}}
-                        transition={{duration:3, repeat:Infinity, ease:"easeInOut"}}
-                        className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl sm:mb-6 bg-gradient-to-br from-[#3be8ff]/15 to-[#040f12]/15 border border-[#3be8ff]/20 flex items-center justify-center mb-5 mx-auto">
-                            <img src={logo} alt="logo" className="w-12 h-12" />
+                            animate={{ y: [0, -6, 0] }}
+                            transition={{
+                                duration: 3,
+                                repeat: Infinity,
+                                ease: "easeInOut"
+                            }}
+                            className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl mb-5 sm:mb-6 mx-auto
+                                        bg-gradient-to-br from-[#3be8ff]/15 to-[#040f12]/15
+                                        border border-[#3be8ff]/20
+                                        flex items-center justify-center"
+                            >
+                            <SiDeepgram 
+                                className="w-6 h-6"
+                            />
                         </motion.div>
                         
                         <h3 className="text-xl font-bold text-[#e4f6f8] mb-2 tracking-tight">

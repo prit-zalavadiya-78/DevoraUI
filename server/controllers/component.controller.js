@@ -17,7 +17,6 @@ const saveComponent = async (req, res) => {
         if(user.role === "admin"){
             const existingComponent = await Component.findOne({name});
             if(existingComponent){
-                // console.log(existingComponent);
                 return res.status(400).json({message: "Component already exists"});
             }
         }
@@ -29,12 +28,10 @@ const saveComponent = async (req, res) => {
         }
 
         const component = await Component.create({name, code, props, ownerId: req.userID});
-        
         return res.status(200).json({message: "Component created successfully", component});
 
         
     } catch (error) {
-        console.log(error);
         return res.status(500).json({message: "Internal server error"});
     }
 }
@@ -108,7 +105,7 @@ const publishComponent = async (req, res) => {
 
 const getAllComponents = async (req, res) => {
     try {
-        const components = await Component.find().populate("ownerId", "name, email").sort({createdAt: -1});
+        const components = await Component.find().populate("ownerId", "name email").sort({createdAt: -1});
 
         if(!components) {
             return res.status(404).json({message: "Components not found"});

@@ -38,7 +38,6 @@ const App = () => {
   }, [])
 
   useEffect(()=>{
-    if(!userData) return;
     const fetchAllUser = async ()=>{
       try {
         const res = await axios.get(`${ServerURL}/api/user/all-users`, {withCredentials: true});
@@ -49,7 +48,7 @@ const App = () => {
         dispatch(setAllUser(null));
       }
     }
-
+    
     const fetchAllComponents = async () => {
       try {
         const res = await axios.get(`${ServerURL}/api/component/all-components`, {withCredentials: true});
@@ -60,8 +59,9 @@ const App = () => {
         dispatch(setAllComponents(null));
       }
     }
-
+    
     fetchAllComponents();
+    if(!userData) return;
     fetchAllUser();
 
   }, [userData, dispatch]);

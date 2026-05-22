@@ -5,7 +5,7 @@ import {
   TbLayoutSidebarLeftExpand, TbX, TbMenu2
 } from "react-icons/tb";
 import { HiSparkles } from "react-icons/hi2";
-import { SiValorant } from "react-icons/si";
+import { SiDeepgram } from "react-icons/si";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
@@ -74,11 +74,13 @@ function GuidePannel({}){
             ) : (
               <>
                 <h2 className="text-base sm:text-lg font-bold mb-2 text-white/80">
-                  Sign in to explore components
+                  {/* Sign in to explore components */}
+                  Select a component
                 </h2>
                 <p className="text-white/35 text-xs sm:text-sm mb-8 sm:mb-10 max-w-sm mx-auto leading-relaxed">
-                  Sign in first to browse prebuilt components, live previews,
-                  and usage guides.
+                  {/* Sign in first to browse prebuilt components, live previews,
+                  and usage guides. */}
+                  Click any component from the sidebar to see its preview, code, and usage guide.
                 </p>
               </>
             )
@@ -122,7 +124,7 @@ function DetailPanel({component, onBack}){
   const importCode = `import { ${component.name} } from "devora-ui";`;
   const usageCode = `import { ${component.name} } from "devora-ui";\n\nexport default function App() {\n  return (\n    <div>\n      <${component.name}${
         component.props?.length
-          ? `\n        ${component.props.map((p) => `${p}={/* value */}`).join("\n        ")}`
+          ? `\n        ${component.props.map((p) => `${p.split("=")[0].trim()}={/* value */}`).join("\n        ")}`
           : ""
         } />\n    </div>\n  );\n}`;
 
@@ -211,18 +213,19 @@ function DetailPanel({component, onBack}){
                               <th className='text-left px-4 py-2.5 text-white/35 font-medium'>
                                 Name
                               </th>
-                              <th className='text-left px-4 py-2.5 text-white/35 font-medium'>Type</th>
+                              {/* <th className='text-left px-4 py-2.5 text-white/35 font-medium'>Type</th> */}
                             </tr>
                           </thead>
                           <tbody>
                             {component.props.map((p, i) => (
                               <tr key={i} className='border-b border-white/[0.04] last:border-0'>
                                 <td className='px-4 py-2.5 font-mono text-[#3be8ff]/70'>{p}</td>
-                                <td className='px-4 py-2.5 text-white/20'>any</td>
+                                {/* <td className='px-4 py-2.5 text-white/20'>any</td> */}
                               </tr>
                             ))}
                           </tbody>
                         </table>
+                        <p className='text-xs text-white/50 px-4 py-2 flex items-center gap-2 border-t border-white/[0.05]'>Refer code section for props details</p>
                       </div>
                     </div>
                   )
@@ -311,6 +314,8 @@ const AllComponents = () => {
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  console.log(allComponents);
+
   const publicComponents = (allComponents || [])
   .filter((c) => c.visibility === "public")
   .filter((c) => c.name?.toLowerCase().includes(search.toLowerCase()))
@@ -329,7 +334,7 @@ const AllComponents = () => {
       <nav className='sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-3.5 sm:py-4 border-b border-white/[0.05] bg-[#030b0d]/90 backdrop-blur-md shrink-0'>
           <button onClick={() => navigate("/")} className='flex items-center gap-2 sm:gap-2.5 bg-transparent border-none cursor-pointer'>
             <div className='w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center shadow-[0_0_14px_rgba(59,232,255,0.35)]'>
-              <SiValorant size={13} color="#051c20"/>
+              <SiDeepgram size={17} color="#051c20"/>
             </div>
             <span className="text-sm sm:text-base font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>
               DevoraUI

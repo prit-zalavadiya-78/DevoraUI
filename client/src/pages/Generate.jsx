@@ -86,10 +86,12 @@ function Generate(){
         setSaving(true);
         try{
             const res = await axios.post(`${ServerURL}/api/component/save`, {name:generated.name, code:generated.code,props:generated.props}, {withCredentials: true});
+            console.log(res);
             setSavedComponentId(res.data.component._id);
             setSaving(false);
             showToast("Component Saved", "success");
         }catch(error){
+            console.log(error);
             setSaving(false);
             showToast("Error saving component", "error");
         }
@@ -435,7 +437,6 @@ function Generate(){
                                             color: savedComponentId ? "#34d399" : "#fff",
                                         }}
                                     >
-
                                         {saving ? (
                                         <motion.span animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }}>
                                             <FiLoader size={14} />
@@ -446,6 +447,7 @@ function Generate(){
                                         <FiSave size={14} />
                                         )}
                                         {saving ? "Saving..." : savedComponentId ? "Saved" : "Save Component"}
+                                    </motion.button>
 
                                         {savedComponentId && (
                                         <motion.div
@@ -496,9 +498,6 @@ function Generate(){
                                         >
                                         <FiPackage size={14} /> My Components
                                         </motion.button>
-
-
-                                    </motion.button>
                                     </>
                                 )}
                                 </div>

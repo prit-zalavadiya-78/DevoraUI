@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Auth from "../components/Auth";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import logo from "../assets/logo.png"
+import { SiDeepgram } from "react-icons/si";
 import { motion, AnimatePresence} from "framer-motion";
 import { TbComponents,TbLayout, TbMenu2, TbX, TbCopy, TbCheck, TbArrowRight, TbAdjustments, TbCode, TbBrandNpm, TbPlayerPlay } from "react-icons/tb";
 import { HiSparkles } from "react-icons/hi";
@@ -84,7 +84,7 @@ function Home(){
             <nav className='sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 lg:px-10 py-4 border-b border-white/[0.05] backdrop-blur-md bg-[#030b0d]/85 backdrop-blur-md'>
                 <div className="flex items-center gap-2.5">
                     <div className='w-8 h-8 rounded-xl bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center shadow-[0_0_14px_rgba(59,232,255,0.4)]'>
-                        <img src={logo} alt="logo" className="w-full h-full object-contain" />
+                        <SiDeepgram size={17} color="#051c20"/>
                     </div>  
                     <span className="text-xl font-bold bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] bg-clip-text text-transparent" style={{fontFamily:"'Syne', sans-serif"}}>
                         DevoraUI
@@ -423,13 +423,13 @@ function Home(){
             <div className='max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0'>
                 <div className='flex items-center gap-2.5'>
                 <div className='w-8 h-8 rounded-xl bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center shadow-[0_0_14px_rgba(59,232,255,0.4)]'>
-                    <img src={logo} alt="logo" className="w-full h-full object-contain" />
+                    <SiDeepgram size={17} color="#051c20"/>
                 </div>
                 <span className='text-lg font-bold tracking-tight' style={{ fontFamily: "'Syne', sans-serif" }}>DevoraUI</span>
                 </div>
                 <div className='flex flex-wrap justify-center gap-4 sm:gap-5 text-xs text-white/30'>
-                    <span className='hover:text-white/60 cursor-pointer transition-colors'>Components</span>
-                    <span className='hover:text-white/60 cursor-pointer transition-colors'>admin@devoraui.com</span>
+                    <span onClick={()=>navigate("/components")} className='hover:text-white/60 cursor-pointer transition-colors'>Components</span>
+                    {/* <span className='hover:text-white/60 cursor-pointer transition-colors'>admin@devoraui.com</span> */}
                 </div>
                 <p className='text-xs text-white/30 order-last sm:order-none'> &#169; {new Date().getFullYear()} DevoraUI. All rights reserved.</p>
             </div>

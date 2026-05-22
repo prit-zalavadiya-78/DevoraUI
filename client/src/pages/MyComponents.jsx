@@ -5,7 +5,7 @@ import {
   TbLayoutSidebarLeftExpand, TbX, TbMenu2
 } from "react-icons/tb";
 import { HiSparkles } from "react-icons/hi2";
-import { SiValorant } from "react-icons/si";
+import { SiDeepgram } from "react-icons/si";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { AnimatePresence, motion } from "framer-motion";
@@ -80,7 +80,7 @@ function GuidePannel({}){
 
 function DetailPanel({component, onBack}){
   const [activeTab, setActiveTab] = useState("preview");
-  const usageCode = `import ${component.name} from "./${component.name}";
+  const usageCode = `import ${component.name} from "./${component.name}.jsx";
 
   export default function App() {
     return (
@@ -226,7 +226,7 @@ function SidebarComponent({ myComponents, selected, onSelect, search, setSearch 
 
       <div className='flex-1 overflow-y-auto py-1 px-2'>
         {myComponents.length === 0 ? (
-          <div className="text-xs text-white/20 text-center py-8 px-3">No public components yet</div>
+          <div className="text-xs text-white/20 text-center py-8 px-3">No components created yet</div>
         ) : (
           myComponents.map((c) => (
             <button key={c._id}
@@ -261,7 +261,7 @@ const MyComponents = () => {
 
   const myComponents = (allComponents || [])
   .filter((c) => c.visibility === "private")
-  .filter((c) => c.owner?._id === userData?._id)
+  .filter((c) => c.ownerId?._id === userData?._id)
   .filter((c) => c.name?.toLowerCase().includes(search.toLowerCase()))
   .sort((a, b) => a.name?.localeCompare(b.name));
 
@@ -278,7 +278,7 @@ const MyComponents = () => {
       <nav className='sticky top-0 z-40 flex items-center justify-between px-4 sm:px-8 py-3.5 sm:py-4 border-b border-white/[0.05] bg-[#030b0d]/90 backdrop-blur-md shrink-0'>
           <button onClick={() => navigate("/")} className='flex items-center gap-2 sm:gap-2.5 bg-transparent border-none cursor-pointer'>
             <div className='w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center shadow-[0_0_14px_rgba(59,232,255,0.35)]'>
-              <SiValorant size={13} color="#051c20"/>
+              <SiDeepgram size={17} color="#051c20"/>
             </div>
             <span className="text-sm sm:text-base font-bold text-white" style={{ fontFamily: "'Syne', sans-serif" }}>
               DevoraUI
