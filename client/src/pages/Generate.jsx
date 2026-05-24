@@ -7,6 +7,8 @@ import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import {setUserData} from "../redux/userSlice.js";
 import LiveComponentPreview from "../components/LiveComponentPreview.jsx";
+import { SiDeepgram } from "react-icons/si";
+import {TbComponents} from "react-icons/tb";
 
 const ServerURL = import.meta.env.VITE_API_URL;
 
@@ -124,6 +126,59 @@ function Generate(){
 
                 <div className='absolute top-[-10%] left-[-5%] w-96 h-96 rounded-full pointer-events-none opacity-20' style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)", filter: "blur(60px)" }} />
                 <div className='absolute bottom-[-10%] right-[-5%] w-80 h-80 rounded-full pointer-events-none opacity-15' style={{ background: "radial-gradient(circle, #06b6d4 0%, transparent 70%)", filter: "blur(60px)" }} />
+
+                <nav className="sticky top-0 z-50 flex items-center justify-between px-6 sm:px-8 lg:px-12 py-3
+                    bg-[rgba(3, 11, 13, 0.39)]
+                    backdrop-blur-xl
+                    border-b border-white/10
+                    shadow-[0_8px_32px_rgba(0,0,0,0.25)]">
+
+                    <div onClick={() => navigate("/")} className="flex items-center gap-2.5 cursor-pointer">
+                        <div className='w-8 h-8 rounded-xl bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] flex items-center justify-center shadow-[0_0_14px_rgba(59,232,255,0.4)]'>
+                            <SiDeepgram size={17} color="#051c20"/>
+                        </div>  
+                        <span className="text-xl font-bold bg-gradient-to-br text-white bg-clip-text text-transparent" style={{fontFamily:"'Syne', sans-serif"}}>
+                            DevoraUI
+                        </span>
+                    </div>
+
+                    <div className="hidden md:flex text-sm items-center gap-4 lg:gap-6">
+
+                        <button
+                            onClick={() => navigate("/components")}
+                            className="
+                                px-6 py-1.5 rounded-xl
+                                border border-white/10
+                                bg-white/[0.03]
+                                text-white/70
+                                transition-all duration-300
+                                hover:text-white
+                                hover:bg-white/[0.06]
+                                hover:border-cyan-400/30
+                                hover:shadow-[0_0_20px_rgba(59,232,255,0.15)]
+                            "
+                        >
+                            Components
+                        </button>
+
+                        <button
+                            onClick={() => navigate("/my-components")}
+                            className="
+                                px-6 py-1.5 rounded-xl
+                                border border-white/10
+                                bg-white/[0.03]
+                                text-white/70
+                                transition-all duration-300
+                                hover:text-white
+                                hover:bg-white/[0.06]
+                                hover:border-cyan-400/30
+                                hover:shadow-[0_0_20px_rgba(59,232,255,0.15)]
+                            "
+                        >
+                            My Components
+                        </button>
+                    </div>
+                </nav>
 
                 <div className='relative z-10 max-w-5xl mx-auto px-4 py-12'>
 

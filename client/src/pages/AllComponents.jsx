@@ -2,9 +2,8 @@ import React, {useState} from 'react'
 import {
   TbCode, TbEye, TbBox, TbCopy, TbCheck,
   TbPackage, TbBrandNpm, TbChevronRight, TbSearch,
-  TbLayoutSidebarLeftExpand, TbX, TbMenu2
+  TbLayoutSidebarLeftExpand, TbX, TbMenu2, TbComponents
 } from "react-icons/tb";
-import { HiSparkles } from "react-icons/hi2";
 import { SiDeepgram } from "react-icons/si";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -309,12 +308,11 @@ function SidebarComponent({ publicComponents, selected, onSelect, search, setSea
 const AllComponents = () => {
 
   const navigate = useNavigate();
-  const { allComponents } = useSelector(state => state.user);
+  const { userData, allComponents } = useSelector(state => state.user);
   const [selected, setSelected] = useState(null);
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  console.log(allComponents);
 
   const publicComponents = (allComponents || [])
   .filter((c) => c.visibility === "public")
@@ -341,11 +339,20 @@ const AllComponents = () => {
             </span>
           </button>
 
-          <div className='flex items-center gap-2'>
+          <div className='flex items-center gap-3'>
             <div className='hidden sm:flex items-center gap-2 text-xs text-white/30'>
               <TbLayoutSidebarLeftExpand size={14}/>
               <span>Component Explorer</span>
             </div>
+
+            {
+              userData && (
+                <div onClick={()=>navigate('/my-components')} className='hidden sm:flex items-center gap-2 text-xs text-white/30 border border-white/[0.06] rounded-xl px-3 py-1.5 hover:border-[#3be8ff] hover:text-[#3be8ff] transition-colors cursor-pointer'>
+                  <TbComponents size={14}/>
+                  <span>My Components</span>
+                </div>
+              )
+            }
 
             <button onClick={() => setSidebarOpen(true)} className='sm:hidden flex items-center justify-center w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/50 hover:text-white/80 transition-colors cursor-pointer'>
               <TbMenu2 size={16}/>

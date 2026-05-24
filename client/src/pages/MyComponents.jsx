@@ -1,8 +1,8 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {
   TbCode, TbEye, TbBox, TbCopy, TbCheck,
-  TbPackage, TbBrandNpm, TbChevronRight, TbSearch,
-  TbLayoutSidebarLeftExpand, TbX, TbMenu2
+  TbPackage, TbChevronRight, TbSearch,
+  TbLayoutSidebarLeftExpand, TbX, TbMenu2, TbComponents
 } from "react-icons/tb";
 import { HiSparkles } from "react-icons/hi2";
 import { SiDeepgram } from "react-icons/si";
@@ -259,6 +259,10 @@ const MyComponents = () => {
   const [search, setSearch] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  useEffect(()=>{
+    if(userData === null) navigate('/');
+  }, [userData]);
+
   const myComponents = (allComponents || [])
   .filter((c) => c.visibility === "private")
   .filter((c) => c.ownerId?._id === userData?._id)
@@ -289,6 +293,11 @@ const MyComponents = () => {
             <div className='hidden sm:flex items-center gap-2 text-xs text-white/30'>
               <TbLayoutSidebarLeftExpand size={14}/>
               <span>Component Explorer</span>
+            </div>
+
+            <div onClick={()=>navigate('/components')} className='hidden sm:flex items-center gap-2 text-xs text-white/30 border border-white/[0.06] rounded-xl px-3 py-1.5 hover:border-[#3be8ff] hover:text-[#3be8ff] transition-colors cursor-pointer'>
+              <TbComponents size={14}/>
+              <span>All Components</span>
             </div>
 
             <button onClick={() => setSidebarOpen(true)} className='sm:hidden flex items-center justify-center w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.08] text-white/50 hover:text-white/80 transition-colors cursor-pointer'>
