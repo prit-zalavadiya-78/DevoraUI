@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const askAI = async (prompt) => {
+const askAI = async (prompt, apiKey = process.env.OPENROUTER_API_KEY) => {
     try {
         if(!prompt || !Array.isArray(prompt) || prompt.length === 0 ){
             throw new Error("Prompt is required");
@@ -14,7 +14,7 @@ const askAI = async (prompt) => {
             response_format: {type: "json_object"},
         }, {
             headers: {
-                "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                "Authorization": `Bearer ${apiKey}`,
                 "X-OpenRouter-Title": "DevoraUI",
                 "Content-Type": "application/json",
             }

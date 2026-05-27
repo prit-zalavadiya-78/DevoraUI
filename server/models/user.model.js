@@ -18,6 +18,14 @@ const userSchema = new Schema({
     aiCredits:{
         type: Number,
         default: 100
+    },
+    apiKey:{
+        type: String,
+        default: null
+    },
+    iv:{
+        type: String,
+        default: null
     }
 },
 {

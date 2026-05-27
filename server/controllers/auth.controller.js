@@ -12,7 +12,8 @@ const googleAuth = async (req, res) => {
                 name,
                 email,
                 role: "user",
-                aiCredits: 100
+                aiCredits: 100,
+                apiKey: ""
             })
         }
 

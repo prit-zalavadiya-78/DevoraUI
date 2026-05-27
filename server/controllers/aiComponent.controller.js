@@ -1,10 +1,27 @@
 import { askAI } from "../utils/openRouter.js";
 import User from "../models/user.model.js";
+import crypto from "crypto";
+
+const algorithm = "aes-256-cbc";
+const secretKey = process.env.ENCRYPTION_KEY;
+
+function decrypt(encryptedData, ivHex) {
+  const decipher = crypto.createDecipheriv(
+    algorithm,
+    Buffer.from(secretKey, "hex"),
+    Buffer.from(ivHex, "hex")
+  );
+
+  let decrypted = decipher.update(encryptedData, "hex", "utf8");
+  decrypted += decipher.final("utf8");
+
+  return decrypted;
+}
 
 const generateComponent = async (req, res) => {
     try {
         // console.log("Component generate function called");
-        const { prompt } = req.body;
+        const { prompt, userApi } = req.body;
         if(!prompt) throw new Error("Prompt is required");
 
         // console.log("Fetching user");
@@ -19,7 +36,7 @@ const generateComponent = async (req, res) => {
             return res.status(403).json({ message: "Insufficient credits. Buy credits to use this feature" });
         }
 
-        if(user.role === "user") {
+        if(user.role === "user" && !userApi) {
             user.aiCredits -= 50;
             await user.save();
         }
@@ -97,8 +114,9 @@ const generateComponent = async (req, res) => {
                 content: prompt,
             }];
 
+        const apiKey = user?.apiKey ? decrypt(user.apiKey, user.iv) : process.env.OPENROUTER_API_KEY;
 
-        const content = await askAI(messages);
+        const content = await askAI(messages, apiKey);
 
         let parsedContent;
         try {

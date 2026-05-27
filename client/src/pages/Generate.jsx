@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FiCpu, FiZap, FiPlus, FiAlertCircle, FiArrowRight, FiLoader, FiCheckCircle, FiLayers, FiEye, FiCode, FiArrowLeft, FiRefreshCw, FiUploadCloud, FiPackage, FiSave } from "react-icons/fi";
-import {TbX} from "react-icons/tb";
+import { TbX, TbApi, TbSettingsFilled} from "react-icons/tb";
 import { motion, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import {useNavigate} from "react-router-dom";
@@ -8,7 +8,8 @@ import axios from "axios";
 import {setUserData} from "../redux/userSlice.js";
 import LiveComponentPreview from "../components/LiveComponentPreview.jsx";
 import { SiDeepgram } from "react-icons/si";
-import {TbComponents} from "react-icons/tb";
+import { LiaToggleOnSolid, LiaToggleOffSolid } from "react-icons/lia";
+import { FaRegEdit } from "react-icons/fa";
 
 const ServerURL = import.meta.env.VITE_API_URL;
 
@@ -37,12 +38,224 @@ const Toast = ({message, type, onClose})=>{
     )
 }
 
+function ApiKeySettings({ userApiKey, onClose, onSave, onRemove }) {
+    const [apiKey, setApiKey] = useState("");
+    const [saving, setSaving] = useState(false);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            setSaving(true);
+            await onSave(apiKey);
+            onClose();
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    return (
+        <AnimatePresence>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[100] top-10 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+            >
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="w-full max-w-lg mx-4 rounded-3xl overflow-hidden"
+                    style={{
+                        background: "rgba(13,13,40,0.95)",
+                        border: "1px solid rgba(99,102,241,0.25)",
+                        boxShadow: "0 0 40px rgba(99,102,241,0.15)",
+                    }}
+                >
+                    {/* Header */}
+                    <div
+                        className="flex items-center justify-between px-6 py-3 border-b"
+                        style={{ borderColor: "rgba(255,255,255,0.08)" }}
+                    >
+                        <div className="flex items-center gap-3">
+                            <div
+                                className="w-10 h-10 rounded-xl flex items-center justify-center"
+                                style={{
+                                    background:
+                                        "rgba(99,102,241,0.15)",
+                                }}
+                            >
+                                <TbApi
+                                    size={20}
+                                    className="text-indigo-400"
+                                />
+                            </div>
+
+                            <div>
+                                <h3 className="font-semibold text-white">
+                                    API Settings
+                                </h3>
+                                <p className="text-xs text-white/40">
+                                    Manage your personal API key
+                                </p>
+                            </div>
+                        </div>
+
+                        <button
+                            onClick={onClose}
+                            className="text-white/40 hover:text-white transition"
+                        >
+                            <TbX size={22} />
+                        </button>
+                    </div>
+
+
+                    {/* Body */}
+                    <form
+                        className="px-6 py-3"
+                    >
+                        {/* Warning */}
+                        <div className="px-3 py-2 rounded-xl border border-red-500/20 bg-red-500/10">
+                            <p className="text-xs font-medium text-red-400">
+                                Once your API key is saved, it will not be visible again for security reasons.
+                            </p>
+                        </div>
+
+                        <label className="block text-sm text-white/70 my-2">
+                            {userApiKey
+                                ? "Update API Key"
+                                : "Enter API Key"}
+                        </label>
+
+                        <input
+                            type="text"
+                            value={apiKey}
+                            onChange={(e) =>
+                                setApiKey(e.target.value)
+                            }
+                            placeholder="sk-xxxxxxxxxxxxxxxx"
+                            className="w-full px-4 py-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-white/20 outline-none focus:border-indigo-500 transition"
+                        />
+
+                        {
+                            !userApiKey && (
+                                <div className="mt-5 rounded-xl bg-white/5 border border-white/10 p-4">
+                                    <h4 className="text-sm font-semibold text-white mb-3">
+                                        How to get your OpenRouter API Key
+                                    </h4>
+
+                                    <ol className="space-y-1 text-sm text-white/60 list-decimal list-inside">
+                                        <li>
+                                            Visit{" "}
+                                            <a
+                                                href="https://openrouter.ai"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-indigo-400 hover:underline"
+                                            >
+                                                openrouter.ai
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            Sign in or create a free account
+                                        </li>
+
+                                        <li>
+                                            Click on your profile avatar in the top-right corner
+                                        </li>
+
+                                        <li>
+                                            Click on the Workspaces and Open the <span className="text-white">API Keys</span> section
+                                        </li>
+
+                                        <li>
+                                            Generate a new API key
+                                        </li>
+
+                                        <li>
+                                            Copy the generated key and paste it here
+                                        </li>
+                                    </ol>
+                                </div>
+                            )
+                        }
+
+                        <div className="flex justify-end gap-3 mt-6">
+                            <button
+                                onClick={onClose}
+                                className="px-5 py-2.5 rounded-xl text-sm font-medium"
+                                style={{
+                                    background:
+                                        "rgba(255,255,255,0.05)",
+                                    border:
+                                        "1px solid rgba(255,255,255,0.08)",
+                                    color:
+                                        "rgba(255,255,255,0.6)",
+                                }}
+                            >
+                                Cancel
+                            </button>
+
+                            {
+                                userApiKey && (
+                                    <button
+                                        onClick={onRemove}
+                                        className="px-5 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-40"
+                                        style={{
+                                            background:
+                                                "linear-gradient(135deg,#6366f1 0%,#4f46e5 100%)",
+                                            boxShadow:
+                                                "0 0 20px rgba(99,102,241,0.3)",
+                                            color: "#fff",
+                                        }}
+                                    >
+                                        {saving
+                                            ? "Removing..."
+                                            : "Remove Key"}
+                                    </button>
+                                )
+                            }
+
+
+                            <button
+                                onClick={handleSubmit}
+                                disabled={
+                                    saving || !apiKey.trim()
+                                }
+                                className="px-5 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-40"
+                                style={{
+                                    background:
+                                        "linear-gradient(135deg,#6366f1 0%,#4f46e5 100%)",
+                                    boxShadow:
+                                        "0 0 20px rgba(99,102,241,0.3)",
+                                    color: "#fff",
+                                }}
+                            >
+                                {saving
+                                    ? "Saving..."
+                                    : userApiKey
+                                    ? "Update Key"
+                                    : "Save Key"}
+                            </button>
+                        </div>
+                    </form>
+                </motion.div>
+            </motion.div>
+        </AnimatePresence>
+    );
+}
+
 function Generate(){
 
     const {userData} = useSelector((state) => state.user);
     const userRole = userData?.role;
     const aiCredits = userData?.aiCredits;
     const lowCredits = userRole === "user" && aiCredits <= 50;
+    const userApiKey = userData?.apiKey;
     // console.log(userRole, lowCredits);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -55,6 +268,8 @@ function Generate(){
     const [saving, setSaving] = useState(false);
     const [publishing, setPublishing] = useState(false);
     const [published, setPublished] = useState(false);
+    const [apiModalOpen, setApiModalOpen] = useState(false);
+    const [useApi, setUseApi] = useState(false);
 
     const showToast = (message, type = 'info') => {
         setToast({message, type});
@@ -62,11 +277,11 @@ function Generate(){
     };
 
     const handleGenerate = async () => {    
-        if(!prompt.trim() || lowCredits) return;
+        if(!prompt.trim() || (lowCredits && !useApi)) return;
         setGenerated(null);
         setGenerating(true);
         try {
-            const {data} = await axios.post(`${ServerURL}/api/component/generate`,{prompt}, {withCredentials: true});
+            const {data} = await axios.post(`${ServerURL}/api/component/generate`,{prompt, userApi: useApi}, {withCredentials: true});
             setGenerated(data.parsedContent);
             dispatch(setUserData({...userData, aiCredits:data.remainingCredits}));
             setGenerating(false);
@@ -211,7 +426,7 @@ function Generate(){
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{delay: 0.05}}
-                            className="flex justify-end mb-4">
+                            className="flex justify-end mb-4 gap-2">
                                 <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl" style={{background: lowCredits ? "rgba(239,68,68,0.1)" : "rgba(99,102,241,0.1)", border: "1px solid" + (lowCredits ? "rgba(239,68,68,0.3)" : "rgba(99,102,241,0.3)") ,}}>
                                     <FiZap size={13} style={{ color: lowCredits ? "#f87171" : "#818cf8" }}/>
                                     <span className="text-xs font-semibold" style={{ color: lowCredits ? "#f87171" : "#818cf8" }}>
@@ -224,11 +439,88 @@ function Generate(){
                                     </button>
 
                                 </div>
+                                <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl" style={{background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)" }}>
+                                    <TbApi size={22} style={{ color: "#818cf8" }}/>
+                                    <span className="text-xs font-semibold" style={{ color: "#818cf8" }}>
+                                        Your API Key
+                                    </span>
+
+                                    <button className='flex items-center justify-center w-5 h-5 rounded-md transition-all cursor-pointer border-none'
+                                    onClick={() =>{
+                                        if (userApiKey !== ""){
+                                            setUseApi(!useApi);
+                                        } else {
+                                            setApiModalOpen(true);
+                                        }
+                                    }}>
+                                        {
+                                            useApi ? <LiaToggleOnSolid size={22} style={{ color: "#818cf8" }}/> : <LiaToggleOffSolid size={22} style={{ color: "#818cf8" }}/>
+                                        }
+                                    </button>
+
+                                    {
+                                        userApiKey !== "" ? (
+                                            <button className='flex items-center justify-center w-5 h-5 rounded-md transition-all cursor-pointer border-none'
+                                            onClick={()=>setApiModalOpen(true)}
+                                            style={{background: "rgba(99,102,241,0.2)", border: "1px solid rgba(99,102,241,0.3)"}}>
+                                                <FaRegEdit size={11} style={{ color: "#818cf8" }}/>
+                                            </button>
+                                        ) : (
+                                            <button className='flex items-center justify-center w-5 h-5 rounded-md transition-all cursor-pointer border-none'
+                                            onClick={()=>setApiModalOpen(true)}
+                                            style={{background: "rgba(99,102,241,0.2)", border: "1px solid rgba(99,102,241,0.3)"}}>
+                                                <TbSettingsFilled size={13} style={{ color: "#818cf8" }}/>
+                                            </button>
+                                        )
+                                    }
+
+                                    {
+                                        apiModalOpen && (
+                                            <ApiKeySettings
+                                                userApiKey={userApiKey}
+                                                onClose={() => setApiModalOpen(false)}
+                                                onSave={async (key) => {
+                                                    const res = await axios.post(
+                                                        `${ServerURL}/api/user/set-api-key`,
+                                                        { apiKey: key },
+                                                        { withCredentials: true }
+                                                    );
+                                                    dispatch(
+                                                        setUserData({
+                                                            ...userData,
+                                                            apiKey: res.data.apiKey,
+                                                            iv: res.data.iv
+                                                        })
+                                                    );
+
+                                                    showToast("API Key Updated", "success");
+                                                }}
+                                                onRemove={async ()=>{
+                                                    await axios.post(
+                                                        `${ServerURL}/api/user/remove-api-key`,
+                                                        {},
+                                                        { withCredentials: true }
+                                                    );
+                                                    dispatch(
+                                                        setUserData({
+                                                            ...userData,
+                                                            apiKey: "",
+                                                            iv: ""
+                                                        })
+                                                    );
+
+                                                    showToast("API Key Removed", "success");
+                                                }}
+                                            />
+                                        )
+                                    }
+
+                                </div>
                             </motion.div>
                         )
                     }
 
-                    {lowCredits && (
+                    {lowCredits && !useApi && (
                         <motion.div
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -267,8 +559,8 @@ function Generate(){
                                 onKeyDown={handleKeyDown}
                                 onChange={(e)=>setPrompt(e.target.value)}
                                 value={prompt}
-                                placeholder={lowCredits ? "Not enough credits to generate..." : "A glassmorphism pricing card with a toggle for monthly/annual billing..."}
-                                disabled={lowCredits}
+                                placeholder={lowCredits && !useApi ? "Not enough credits to generate..." : "A glassmorphism pricing card with a toggle for monthly/annual billing..."}
+                                disabled={lowCredits && !useApi}
                                 rows={3}
                                 className='w-full bg-transparent text-white placeholder-white/20 text-[15px] resize-none outline-none leading-relaxed disabled:cursor-not-allowed'
                             />
@@ -281,7 +573,7 @@ function Generate(){
                         <motion.button
                         whileTap={{ scale: 0.97 }}
                         onClick={handleGenerate}
-                        disabled={generating || lowCredits || !prompt.trim()}
+                        disabled={generating || (lowCredits && !useApi) || !prompt.trim()}
                         className='flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-40 disabled:cursor-not-allowed transition-all'
                         style={{
                             background: generating ? "rgba(99,102,241,0.3)" : "linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)",
